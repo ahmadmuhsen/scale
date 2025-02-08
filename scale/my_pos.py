@@ -430,7 +430,7 @@ def list_item_details(args, doc=None, for_validate=False, overwrite_warehouse=Tr
             doctype="Item Price",
             filters={
                 "price_list": args.price_list,
-                "item_code": item_code,
+                "item_code": args.item_code,
                 "batch_no": out.get("batch_no"),
             },
             fields=["uom", "currency", "price_list_rate", "batch_no"],
