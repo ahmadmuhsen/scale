@@ -401,7 +401,6 @@ def list_item_details(args, doc=None, for_validate=False, overwrite_warehouse=Tr
                 item_code_index = item_code_start - 1
                 qty_index = weight_start - 1
                 price_index = price_start - 1 if price_included else None
-                price_list_rate = 0
 
                 if item_code_index is not None:
                     item_code = barcode[item_code_index:item_code_index + item_code_length]
