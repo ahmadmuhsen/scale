@@ -210,7 +210,7 @@ def list_items(start, page_length, price_list, item_group, pos_profile, search_t
     )
 
     if not items_data:
-        return {"items": result}
+        return result
     
     current_date = frappe.utils.today()
 
