@@ -1,5 +1,5 @@
 from erpnext.accounts.doctype.pos_invoice.pos_invoice import get_stock_availability
-from erpnext.selling.page.point_of_sale.point_of_sale import get_conditions, get_item_group_condition, search_for_serial_or_batch_or_barcode_number
+from erpnext.selling.page.point_of_sale.point_of_sale import get_conditions, get_item_group_condition, search_for_serial_or_batch_or_barcode_number, filter_result_items
 import frappe
 from frappe.utils.nestedset import get_root_of
 
@@ -155,6 +155,7 @@ def list_items(start, page_length, price_list, item_group, pos_profile, search_t
 
     if search_term:
         search_result = searching_term(search_term, warehouse, price_list)
+        filter_result_items(search_result, pos_profile)
         if search_result and "items" in search_result:
             return search_result
 
