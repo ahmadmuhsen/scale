@@ -40,10 +40,10 @@ def searching_term(search_term, warehouse, price_list):
 
             if item_code_index is not None:
                 item_code = barcode[item_code_index:item_code_index + item_code_length]
+                result = search_for_serial_or_batch_or_barcode_number(item_code) or {}
                 serial_no = result.get("serial_no", "")
                 batch_no = result.get("batch_no", "")
                 barcode = result.get("barcode", "")
-                result = search_for_serial_or_batch_or_barcode_number(item_code) or {}
             if qty_index is not None:
                 qty_str = barcode[qty_index:qty_index + weight_length]
                 if weight_decimals > 0:
