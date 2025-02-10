@@ -9,6 +9,6 @@ from scale.my_pos import applying_price_list_on_item, list_item_details, list_it
 point_of_sale.get_items = list_items
 get_item_details.get_item_details = list_item_details
 get_item_details.get_price_list_rate = list_price
-get_item_details.apply_price_list_on_item = applying_price_list_on_item
+#get_item_details.apply_price_list_on_item = applying_price_list_on_item
 
 
