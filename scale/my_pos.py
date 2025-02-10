@@ -518,7 +518,7 @@ def list_price(args, item_doc, out=None):
 def applying_price_list_on_item(args, doc=None):
     item_doc = frappe.db.get_value("Item", args.item_code, ["name", "variant_of"], as_dict=1)
 
-    result = searching_term(args.get("item_code"), args.get("warehouse"), args.get("selling_price_list") or args.get("buying_price_list"))
+    result = searching_term(args.get("item_code"), args.get("warehouse"), args.get("price_list"))
 
     item_details = {}
     if result and "items" in result:
