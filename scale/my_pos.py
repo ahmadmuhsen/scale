@@ -154,7 +154,7 @@ def list_items(start, page_length, price_list, item_group, pos_profile, search_t
     result = []
 
     if search_term:
-        result = searching_term(search_term, warehouse, price_list)
+        result = searching_term(search_term, warehouse, price_list) or []
         filter_result_items(result, pos_profile)
         if result:
             return result
