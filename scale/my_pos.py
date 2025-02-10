@@ -20,7 +20,6 @@ def searching_term(search_term, warehouse, price_list):
         weight_start = int(scale_settings.weight_starting_digit)
         weight_length = int(scale_settings.weight_total_digits)
         weight_decimals = int(scale_settings.weight_decimals or 0)
-        price_included = scale_settings.price_included_in_barcode_or_not
     except Exception as e:
         frappe.log_error(f"Error in fetching scale settings: {str(e)}")
         return
@@ -38,9 +37,9 @@ def searching_term(search_term, warehouse, price_list):
 
             if item_code_index is not None:
                 item_code = search_term[item_code_index:item_code_index + item_code_length]
-                result = search_for_serial_or_batch_or_barcode_number(item_code) or {}
-                serial_no = result.get("serial_no", "")
-                batch_no = result.get("batch_no", "")
+                #result = search_for_serial_or_batch_or_barcode_number(item_code) or {}
+                #serial_no = result.get("serial_no", "")
+                #batch_no = result.get("batch_no", "")
             if qty_index is not None:
                 qty_str = search_term[qty_index:qty_index + weight_length]
                 if weight_decimals > 0:
@@ -54,10 +53,8 @@ def searching_term(search_term, warehouse, price_list):
             batch_no = result.get("batch_no", "")
             barcode = result.get("barcode", "")
 
-            item_doc = frappe.get_doc("Item", item_code)
-
-            if not item_doc:
-                item_code = None
+            if not result:
+                return
 
     except Exception as e:
         frappe.log_error(f"Error in processing barcode: {str(e)}")
