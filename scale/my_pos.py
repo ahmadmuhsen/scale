@@ -380,27 +380,20 @@ def list_item_details(args, doc=None, for_validate=False, overwrite_warehouse=Tr
 
     prefix_included = cint(scale_settings.prefix_included_or_not) if scale_settings.prefix_included_or_not else 0
     prefix = scale_settings.prefix if scale_settings.prefix else ""
-    prefix_length = int(scale_settings.no_of_prefix_characters) if prefix_included else 0
     item_code_start = int(scale_settings.item_code_starting_digit) if scale_settings.item_code_starting_digit else 1
     item_code_length = int(scale_settings.item_code_total_digits) if scale_settings.item_code_total_digits else 0
     weight_start = int(scale_settings.weight_starting_digit) if scale_settings.weight_starting_digit else 1
     weight_length = int(scale_settings.weight_total_digits) if scale_settings.weight_total_digits else 0
-    price_start = int(scale_settings.price_starting_digit) if scale_settings.price_starting_digit else None
-    price_length = int(scale_settings.price_total_digit) if scale_settings.price_total_digit else 0
     weight_decimals = int(scale_settings.weight_decimals) if scale_settings.weight_decimals else 0
-    price_decimals = int(scale_settings.price_decimals) if scale_settings.price_decimals else 0
-    price_included = cint(scale_settings.price_included_in_barcode_or_not) if scale_settings.price_included_in_barcode_or_not else 0
 
     try:
 
         search_term = frappe.cache.get_value("search_term_" + frappe.session.user)
         if search_term:
-            if not prefix_included or (prefix_included and search_term.startswith(prefix)):
+            if prefix_included and search_term.startswith(prefix):
                 barcode = search_term
-
                 item_code_index = item_code_start - 1
                 qty_index = weight_start - 1
-                price_index = price_start - 1 if price_included else None
 
                 if item_code_index is not None:
                     item_code = barcode[item_code_index:item_code_index + item_code_length]
@@ -413,55 +406,11 @@ def list_item_details(args, doc=None, for_validate=False, overwrite_warehouse=Tr
                         "item_code": item_code,
                         "qty": qty / 1000
                     })
-                if price_included and price_index is not None:
-                    price_str = barcode[price_index:price_index + price_length]
-                    if price_decimals > 0:
-                        price_str += "." + barcode[price_index + price_length:price_index + price_length + price_decimals]
-                    price_list_rate = float(price_str)
-                    out.update({
-                        "item_code": item_code,
-                        "price_list_rate": price_list_rate
-                    })
                 
     except Exception as e:
         frappe.log_error(f"Error in processing barcode: {str(e)}")
 
-    if not price_included:
-        # Fetch price_list_rate similarly to code A
-        price = frappe.get_list(
-            doctype="Item Price",
-            filters={
-                "price_list": args.price_list,
-                "item_code": args.item_code,
-                "batch_no": out.get("batch_no"),
-            },
-            fields=["uom", "currency", "price_list_rate", "batch_no"],
-        )
-
-        def __sort(p):
-            p_uom = p.get("uom")
-            if p_uom == out.get("uom"):
-                return 0
-            elif p_uom == out.get("stock_uom"):
-                return 1
-            else:
-                return 2
-
-        price = sorted(price, key=__sort)
-
-        if len(price) > 0:
-            p = price.pop(0)
-            out.update(
-                {
-                    "currency": p.get("currency"),
-                    "price_list_rate": p.get("price_list_rate"),
-                }
-            )
-
     return out
-
- 
-
 
 def list_price(args, item_doc, out=None):
     
