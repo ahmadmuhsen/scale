@@ -398,6 +398,7 @@ def list_item_details(args, doc=None, for_validate=False, overwrite_warehouse=Tr
 
         search_term = frappe.cache.get_value("search_term_" + frappe.session.user)
         if search_term:
+            frappe.cache.set_value("search_term_" + frappe.session.user, None)
             if not prefix_included or (prefix_included and search_term.startswith(prefix)):
                 barcode = search_term
 
