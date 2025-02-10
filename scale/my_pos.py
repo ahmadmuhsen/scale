@@ -409,17 +409,19 @@ def list_item_details(args, doc=None, for_validate=False, overwrite_warehouse=Tr
                     if weight_decimals > 0:
                         qty_str += "." + barcode[qty_index + weight_length:qty_index + weight_length + weight_decimals]
                     qty = float(qty_str)
+                    out.update({
+                        "item_code": item_code,
+                        "qty": qty
+                    })
                 if price_included and price_index is not None:
                     price_str = barcode[price_index:price_index + price_length]
                     if price_decimals > 0:
                         price_str += "." + barcode[price_index + price_length:price_index + price_length + price_decimals]
                     price_list_rate = float(price_str)
-                
-                out.update({
-                    "item_code": item_code,
-                    "qty": qty,
-                    "price_list_rate": price_list_rate
-                })
+                    out.update({
+                        "item_code": item_code,
+                        "price_list_rate": price_list_rate
+                    })
                 
     except Exception as e:
         frappe.log_error(f"Error in processing barcode: {str(e)}")
