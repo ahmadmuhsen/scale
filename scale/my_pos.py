@@ -411,7 +411,7 @@ def list_item_details(args, doc=None, for_validate=False, overwrite_warehouse=Tr
                     qty = float(qty_str)
                     out.update({
                         "item_code": item_code,
-                        "qty": qty
+                        "qty": qty / 1000
                     })
                 if price_included and price_index is not None:
                     price_str = barcode[price_index:price_index + price_length]
@@ -512,7 +512,7 @@ def list_price(args, item_doc, out=None):
     return out
 
 
-def applying_price_list_on_item(args):
+def applying_price_list_on_item(args, doc=None):
     item_doc = frappe.db.get_value("Item", args.item_code, ["name", "variant_of"], as_dict=1)
 
     result = searching_term(args.get("item_code"), args.get("warehouse"), args.get("selling_price_list") or args.get("buying_price_list"))
