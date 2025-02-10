@@ -27,27 +27,24 @@ def searching_term(search_term, warehouse, price_list):
 
     qty = 0
     item_code = None
-    barcode = None
-    serial_no = None
-    batch_no = None
-    result = None
+    barcode = ""
+    serial_no = ""
+    batch_no = ""
 
     try:
         if not prefix_included or (prefix_included and search_term.startswith(prefix)):
-            barcode = search_term
             item_code_index = item_code_start - 1
             qty_index = weight_start - 1
 
             if item_code_index is not None:
-                item_code = barcode[item_code_index:item_code_index + item_code_length]
+                item_code = search_term[item_code_index:item_code_index + item_code_length]
                 result = search_for_serial_or_batch_or_barcode_number(item_code) or {}
                 serial_no = result.get("serial_no", "")
                 batch_no = result.get("batch_no", "")
-                barcode = result.get("barcode", "")
             if qty_index is not None:
-                qty_str = barcode[qty_index:qty_index + weight_length]
+                qty_str = search_term[qty_index:qty_index + weight_length]
                 if weight_decimals > 0:
-                    qty_str += "." + barcode[qty_index + weight_length:qty_index + weight_length + weight_decimals]
+                    qty_str += "." + search_term[qty_index + weight_length:qty_index + weight_length + weight_decimals]
                 qty = float(qty_str) / 1000
 
         else:
