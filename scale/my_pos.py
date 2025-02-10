@@ -526,7 +526,6 @@ def applying_price_list_on_item(args, doc=None):
         item_data = result["items"][0]
         item_details.update({
             "item_code": item_data.get("item_code"),
-            "qty": item_data.get("qty"),
             "price_list_rate": item_data.get("price_list_rate"),
             "currency": item_data.get("currency"),
         })
