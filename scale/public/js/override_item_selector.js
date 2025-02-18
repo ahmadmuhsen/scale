@@ -9,8 +9,18 @@ function overridePOSItemSelectorEvents() {
         erpnext.PointOfSale.ItemSelector.prototype.filter_items = function ({ search_term = "" } = {}) {
 
             originalFilterItems.call(this, { search_term });
-            if (search_term.startsWith("21"))
-                this.search_index[selling_price_list][search_term] = undefined;
+            if (this.search_index && typeof this.search_index === 'object') {
+                for (const priceList in this.search_index) {
+                    if (this.search_index.hasOwnProperty(priceList) && this.search_index[priceList] && typeof this.search_index[priceList] === 'object') {
+                        for (const searchTerm in this.search_index[priceList]) {
+                            if (searchTerm && searchTerm.startsWith("21")) {
+                                this.search_index[priceList][searchTerm] = undefined;
+                            }
+                        }
+                    }
+                }
+            }
+            
         };
         console.log("POS page loaded, custom filter_items function overridden");
     } else {
