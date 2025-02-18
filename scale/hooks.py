@@ -22,6 +22,10 @@ app_license = "mit"
 #     "/assets/scale/js/override_controller.js",
 #     "/assets/scale/js/override_item_selector.js"
 # ]
+
+app_include_js = [
+    "/assets/scale/js/override_item_selector.js"
+]
  
 
 
