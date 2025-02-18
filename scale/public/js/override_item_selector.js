@@ -14,13 +14,12 @@ function overridePOSItemSelectorEvents() {
                     if (this.search_index.hasOwnProperty(priceList) && this.search_index[priceList] && typeof this.search_index[priceList] === 'object') {
                         for (const searchTerm in this.search_index[priceList]) {
                             if (searchTerm && searchTerm.startsWith("21")) {
-                                this.search_index[priceList][searchTerm] = undefined;
+                                delete this.search_index[priceList][searchTerm];
                             }
                         }
                     }
                 }
             }
-            
         };
         console.log("POS page loaded, custom filter_items function overridden");
     } else {
