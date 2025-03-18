@@ -21,6 +21,7 @@ function override_bind_events() {
                 console.log("Custom bind_events executing correctly");
 
                 this.$component.on("click", ".submit-order-btn", () => {
+                    debugger;
                     const doc = this.events.get_frm().doc;
                     const paid_amount = doc.paid_amount;
                     const items = doc.items;
