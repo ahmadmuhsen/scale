@@ -26,7 +26,7 @@ app_license = "mit"
 app_include_js = [
     "/assets/scale/js/override_item_selector.js",
     "/assets/scale/js/override_post_order_summary.js",
-    "/assets/scale/js/override_pos_payment.js"
+    "/assets/scale/js/override_pos_controller.js"
 ]
  
 
